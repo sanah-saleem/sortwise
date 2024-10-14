@@ -1,6 +1,9 @@
 package com.demo.Entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,6 +31,10 @@ public class User {
 
     @Column(nullable = false)
     private String name;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Column(unique = true)
     private String email;
