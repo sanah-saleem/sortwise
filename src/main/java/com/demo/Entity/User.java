@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,6 +37,10 @@ public class User {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
+
     @Column(unique = true)
     private String email;
 
@@ -55,6 +60,9 @@ public class User {
 
     @OneToMany(mappedBy = "paidBy", cascade = CascadeType.ALL)
     private List<Expense> expensesPaid;
+
+    @OneToMany(mappedBy = "user")
+    private List<ExpenseSplit> expensesDue;
 
     @OneToMany(mappedBy = "paidBy", cascade = CascadeType.ALL)
     private List<Settlement> settlementsPaid;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.Entity.User;
-import com.demo.Entity.dtos.UserDTO;
+import com.demo.Entity.DTO.CreateUserRequestDTO;
 import com.demo.Service.UserService;
 
 import jakarta.validation.Valid;
@@ -30,13 +30,12 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        Optional<User> user = userService.findUserById(userId);
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        User user = userService.findUserById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> saveUser(@Valid @RequestBody UserDTO userDTO, BindingResult bindingResult) {
+    public ResponseEntity<User> saveUser(@Valid @RequestBody CreateUserRequestDTO userDTO, BindingResult bindingResult) {
         User createdUser = userService.createUser(userDTO);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
